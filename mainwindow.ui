@@ -213,7 +213,7 @@ QPushButton:pressed {
 }</string>
     </property>
     <property name="text">
-     <string/>
+     <string>0</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
