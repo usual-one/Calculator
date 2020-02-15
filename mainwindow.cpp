@@ -57,18 +57,19 @@ void MainWindow::on_btn_c_clicked() {
 
 void MainWindow::on_btn_eq_clicked() {
     if (ui->btn_plus->isChecked()) {
+        ui->btn_plus->setChecked(false);
         second_num = ui->lbl_result->text().split(ui->btn_plus->text())[1].toDouble();
         first_num = first_num + second_num;
-    }
-    if (ui->btn_minus->isChecked()) {
+    } else if (ui->btn_minus->isChecked()) {
+        ui->btn_minus->setChecked(false);
         second_num = ui->lbl_result->text().split(ui->btn_minus->text())[1].toDouble();
         first_num = first_num - second_num;
-    }
-    if (ui->btn_mult->isChecked()) {
+    } else if (ui->btn_mult->isChecked()) {
+        ui->btn_mult->setChecked(false);
         second_num = ui->lbl_result->text().split(ui->btn_mult->text())[1].toDouble();
         first_num = first_num * second_num;
-    }
-    if (ui->btn_div->isChecked()) {
+    } else if (ui->btn_div->isChecked()) {
+        ui->btn_div->setChecked(false);
         second_num = ui->lbl_result->text().split(ui->btn_div->text())[1].toDouble();
         if (second_num != 0) {
             first_num = first_num / second_num;
@@ -76,6 +77,8 @@ void MainWindow::on_btn_eq_clicked() {
             ui->lbl_result->setText("Zero Division Error");
             return;
         }
+    } else {
+        first_num = ui->lbl_result->text().toDouble();
     }
     QString result = QString::number(first_num, 'g', MAX_DIGITS);
     ui->lbl_result->setText(result);
