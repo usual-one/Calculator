@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#define MAX_DIGITS 15
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -33,7 +35,9 @@ private
 private:
     double first_num;
     double second_num;
-    QString last_op;
     Ui::MainWindow *ui;
 };
+
+QString getLastOperand(QString expression);
+
 #endif // MAINWINDOW_H
