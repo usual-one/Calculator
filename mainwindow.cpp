@@ -66,6 +66,11 @@ void MainWindow::appendText(QString text) {
 void MainWindow::on_btn_c_clicked() {
     ui->lbl_result->setText("0");
     ui->btn_eq->setChecked(true);
+
+    ui->btn_plus->setChecked(false);
+    ui->btn_minus->setChecked(false);
+    ui->btn_mult->setChecked(false);
+    ui->btn_div->setChecked(false);
 }
 
 void MainWindow::on_btn_eq_clicked() {
