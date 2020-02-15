@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_mult, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_div, SIGNAL(clicked()), this, SLOT(appendOp()));
 
+    ui->btn_eq->setCheckable(true);
     ui->btn_plus->setCheckable(true);
     ui->btn_minus->setCheckable(true);
     ui->btn_mult->setCheckable(true);
@@ -35,12 +36,19 @@ MainWindow::~MainWindow() {
 
 void MainWindow::appendDigit() {
     QPushButton *button = (QPushButton *) sender();
+    if (ui->btn_eq->isChecked()) {
+        ui->lbl_result->clear();
+        ui->btn_eq->setChecked(false);
+    }
     appendText(button->text());
 }
 
 void MainWindow::appendOp() {
     QPushButton *button = (QPushButton *) sender();
     first_num = ui->lbl_result->text().toDouble();
+    if (ui->btn_eq->isChecked()) {
+        ui->btn_eq->setChecked(false);
+    }
     button->setChecked(true);
     appendText(button->text());
 }
@@ -56,6 +64,7 @@ void MainWindow::on_btn_c_clicked() {
 }
 
 void MainWindow::on_btn_eq_clicked() {
+    ui->btn_eq->setChecked(true);
     if (ui->btn_plus->isChecked()) {
         ui->btn_plus->setChecked(false);
         second_num = ui->lbl_result->text().split(ui->btn_plus->text())[1].toDouble();
