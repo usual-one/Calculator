@@ -3,6 +3,8 @@
 #include <QLabel>
 #include <QString>
 
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -51,6 +53,16 @@ void MainWindow::appendOp() {
             return;
         }
         ui->btn_eq->setChecked(false);
+    }
+
+    QPushButton *existing_op = getOperator();
+    if (existing_op) {
+        if (ui->lbl_result->text().split(existing_op->text()).size() > 1) {
+            return;
+        } else {
+            existing_op->setChecked(false);
+            on_btn_del_clicked();
+        }
     }
     first_num = ui->lbl_result->text().toDouble();
     button->setChecked(true);
@@ -135,7 +147,6 @@ void MainWindow::on_btn_del_clicked()
     if (ui->btn_eq->isChecked()) {
         return;
     }
-
     QString expression = ui->lbl_result->text();
     if (expression.size() > 1) {
         expression.chop(1);
