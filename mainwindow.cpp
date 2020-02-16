@@ -55,15 +55,15 @@ void MainWindow::appendOp() {
         ui->btn_eq->setChecked(false);
     }
 
-    QPushButton *existing_op = getOperator();
-    if (existing_op) {
-        if (ui->lbl_result->text().split(existing_op->text()).size() > 1) {
-            return;
-        } else {
-            existing_op->setChecked(false);
-            on_btn_del_clicked();
-        }
-    }
+//    QPushButton *existing_op = getOperator();
+//    if (existing_op) {
+//        if (ui->lbl_result->text().split(existing_op->text()).size() > 1) {
+//            return;
+//        } else {
+//            existing_op->setChecked(false);
+//            on_btn_del_clicked();
+//        }
+//    }
     first_num = ui->lbl_result->text().toDouble();
     button->setChecked(true);
     appendText(button->text());
