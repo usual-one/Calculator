@@ -117,3 +117,18 @@ void MainWindow::on_btn_dot_clicked() {
 //    QString operators = "+-×÷";
 //    for
 //}
+
+void MainWindow::on_btn_del_clicked()
+{
+    if (ui->btn_eq->isChecked()) {
+        return;
+    }
+
+    QString expression = ui->lbl_result->text();
+    if (expression.size() > 1) {
+        expression.chop(1);
+        ui->lbl_result->setText(expression);
+    } else if (expression != "0") {
+        ui->lbl_result->setText("0");
+    }
+}

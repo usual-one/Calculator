@@ -32,6 +32,8 @@ private
 
     void on_btn_dot_clicked();
 
+    void on_btn_del_clicked();
+
 private:
     double first_num;
     double second_num;
