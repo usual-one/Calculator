@@ -62,6 +62,24 @@ void MainWindow::appendText(QString text) {
     ui->lbl_result->setText(new_text);
 }
 
+QPushButton *MainWindow::getOperator()
+{
+    QPushButton *button = nullptr;
+    if (ui->btn_plus->isChecked()) {
+        button = ui->btn_plus;
+    }
+    if (ui->btn_minus->isChecked()) {
+        button = ui->btn_minus;
+    }
+    if (ui->btn_mult->isChecked()) {
+        button = ui->btn_mult;
+    }
+    if (ui->btn_div->isChecked()) {
+        button = ui->btn_div;
+    }
+    return button;
+}
+
 
 void MainWindow::on_btn_c_clicked() {
     ui->lbl_result->setText("0");
@@ -112,12 +130,6 @@ void MainWindow::on_btn_dot_clicked() {
     }
 }
 
-//QString getLastOperand(QString expression)
-//{
-//    QString operators = "+-×÷";
-//    for
-//}
-
 void MainWindow::on_btn_del_clicked()
 {
     if (ui->btn_eq->isChecked()) {
@@ -131,4 +143,15 @@ void MainWindow::on_btn_del_clicked()
     } else if (expression != "0") {
         ui->lbl_result->setText("0");
     }
+}
+
+void MainWindow::on_btn_ce_clicked()
+{
+    QPushButton *button = getOperator();
+    if (!button) {
+        on_btn_c_clicked();
+        return;
+    }
+    QString expression = ui->lbl_result->text().split(button->text())[0];
+    ui->lbl_result->setText(expression + button->text());
 }

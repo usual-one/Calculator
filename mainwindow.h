@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
 
 #define MAX_DIGITS 15
 
@@ -26,6 +27,8 @@ private
 
     void appendText(QString text);
 
+    QPushButton *getOperator();
+
     void on_btn_c_clicked();
 
     void on_btn_eq_clicked();
@@ -34,12 +37,12 @@ private
 
     void on_btn_del_clicked();
 
+    void on_btn_ce_clicked();
+
 private:
     double first_num;
     double second_num;
     Ui::MainWindow *ui;
 };
-
-QString getLastOperand(QString expression);
 
 #endif // MAINWINDOW_H
