@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QLabel>
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -35,7 +36,7 @@ private
 
     void calculate();
 
-    void appendText(QString text);
+    void appendText(QLabel *label, QString text);
 
     QPushButton *getOperator();
 

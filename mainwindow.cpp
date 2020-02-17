@@ -49,9 +49,13 @@ void MainWindow::appendDigit() {
     QPushButton *button = (QPushButton *) sender();
     if (ui->btn_eq->isChecked()) {
         ui->lbl_result->clear();
+        ui->lbl_action->clear();
         ui->btn_eq->setChecked(false);
     }
-    appendText(button->text());
+    if (getOperator()) {
+        ui->lbl_result->clear();
+    }
+    appendText(ui->lbl_result, button->text());
 }
 
 void MainWindow::appendDot() {
@@ -67,9 +71,9 @@ void MainWindow::appendDot() {
     }
     if (!last_operand.contains(".")) {
         if (last_operand.size() == 0) {
-            appendText("0");
+            appendText(ui->lbl_result, "0");
         }
-        appendText(".");
+        appendText(ui->lbl_result, ".");
     }
 }
 
@@ -80,6 +84,7 @@ void MainWindow::appendOp() {
             button->setChecked(false);
             return;
         }
+        ui->lbl_action->clear();
         ui->btn_eq->setChecked(false);
     }
 
@@ -112,11 +117,12 @@ void MainWindow::appendOp() {
 
     first_num = expression.toDouble();
     button->setChecked(true);
-    appendText(button->text());
+    appendText(ui->lbl_action, ui->lbl_result->text() + button->text());
 }
 
 void MainWindow::deleteExpression() {
     ui->lbl_result->setText("0");
+    ui->lbl_action->clear();
     ui->btn_eq->setChecked(true);
 
     ui->btn_plus->setChecked(false);
@@ -162,24 +168,22 @@ void MainWindow::calculate() {
         return;
     }
 
+    second_num = ui->lbl_result->text().toDouble();
     if (ui->btn_plus->isChecked()) {
         ui->btn_plus->setChecked(false);
-        second_num = ui->lbl_result->text().split(ui->btn_plus->text())[1].toDouble();
         first_num = first_num + second_num;
     } else if (ui->btn_minus->isChecked()) {
         ui->btn_minus->setChecked(false);
-        second_num = ui->lbl_result->text().split(ui->btn_minus->text())[1].toDouble();
         first_num = first_num - second_num;
     } else if (ui->btn_mult->isChecked()) {
         ui->btn_mult->setChecked(false);
-        second_num = ui->lbl_result->text().split(ui->btn_mult->text())[1].toDouble();
         first_num = first_num * second_num;
     } else if (ui->btn_div->isChecked()) {
         ui->btn_div->setChecked(false);
-        second_num = ui->lbl_result->text().split(ui->btn_div->text())[1].toDouble();
         if (second_num != 0) {
             first_num = first_num / second_num;
         } else {
+            appendText(ui->lbl_action, QString::number(second_num, 'g', MAX_DIGITS));
             ui->lbl_result->setText("Zero Division Error");
             return;
         }
@@ -187,13 +191,14 @@ void MainWindow::calculate() {
         first_num = ui->lbl_result->text().toDouble();
     }
     QString result = QString::number(first_num, 'g', MAX_DIGITS);
+    appendText(ui->lbl_action, QString::number(second_num, 'g', MAX_DIGITS));
     ui->lbl_result->setText(result);
     ui->btn_eq->setChecked(true);
 }
 
-void MainWindow::appendText(QString text) {
-    QString new_text = ui->lbl_result->text() + text;
-    ui->lbl_result->setText(new_text);
+void MainWindow::appendText(QLabel *label, QString text) {
+    QString new_text = label->text() + text;
+    label->setText(new_text);
 }
 
 QPushButton *MainWindow::getOperator() {
