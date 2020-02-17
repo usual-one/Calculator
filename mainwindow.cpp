@@ -3,7 +3,7 @@
 #include <QLabel>
 #include <QString>
 
-#include <iostream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -74,25 +74,41 @@ void MainWindow::appendDot() {
 }
 
 void MainWindow::appendOp() {
-    QPushButton *button = (QPushButton *) sender();
     if (ui->btn_eq->isChecked()) {
         if (ui->lbl_result->text().contains("Zero Division Error")) {
             return;
         }
         ui->btn_eq->setChecked(false);
     }
+    QPushButton *button = (QPushButton *) sender();
+    QString expression = ui->lbl_result->text();
 
-//    QPushButton *op = getOperator();
-//    if (op) {
-//        if (ui->lbl_result->text().split(op->text()).size() > 0) {
-//            return;
-//        } else {
-//            op->setChecked(false);
-//            on_btn_del_clicked();
-//        }
-//    }
+    int negative_expression_flag = 0;
+    if (expression[0] == "-") {
+        negative_expression_flag = 1;
+        expression.remove(0, 1);
+    }
 
-    first_num = ui->lbl_result->text().toDouble();
+
+    if (expression.contains(button->text())) {
+        button->setChecked(true);
+        return;
+    }
+    button->setChecked(false);
+    QPushButton *op = getOperator();
+    if (op) {
+        if (expression[expression.size() - 1] != op->text()) {
+            return;
+        }
+        op->setChecked(false);
+        expression.chop(1);
+        if (negative_expression_flag) {
+            expression = "-" + expression;
+        }
+        ui->lbl_result->setText(expression);
+    }
+
+    first_num = expression.toDouble();
     button->setChecked(true);
     appendText(button->text());
 }
@@ -121,12 +137,20 @@ void MainWindow::deleteDigit() {
     if (ui->btn_eq->isChecked()) {
         return;
     }
+
     QString expression = ui->lbl_result->text();
+    QPushButton *op = getOperator();
+    if (op) {
+        if (expression[expression.size() - 1] == op->text()) {
+            return;
+        }
+    }
     if (expression.size() > 1) {
         expression.chop(1);
         ui->lbl_result->setText(expression);
     } else if (expression != "0") {
         ui->lbl_result->setText("0");
+        ui->btn_eq->setChecked(true);
     }
 }
 
