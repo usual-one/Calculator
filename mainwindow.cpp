@@ -55,15 +55,16 @@ void MainWindow::appendOp() {
         ui->btn_eq->setChecked(false);
     }
 
-//    QPushButton *existing_op = getOperator();
-//    if (existing_op) {
-//        if (ui->lbl_result->text().split(existing_op->text()).size() > 1) {
+//    QPushButton *op = getOperator();
+//    if (op) {
+//        if (ui->lbl_result->text().split(op->text()).size() > 0) {
 //            return;
 //        } else {
-//            existing_op->setChecked(false);
+//            op->setChecked(false);
 //            on_btn_del_clicked();
 //        }
 //    }
+
     first_num = ui->lbl_result->text().toDouble();
     button->setChecked(true);
     appendText(button->text());
@@ -135,9 +136,16 @@ void MainWindow::on_btn_eq_clicked() {
 
 void MainWindow::on_btn_dot_clicked() {
     if (ui->btn_eq->isChecked()) {
+        ui->lbl_result->setText("0");
         ui->btn_eq->setChecked(false);
     }
-    if (!ui->lbl_result->text().contains(".")) {
+
+    QPushButton* op = getOperator();
+    QString last_operand = ui->lbl_result->text();
+    if (op) {
+        last_operand = last_operand.split(op->text())[1];
+    }
+    if (!last_operand.contains(".") && last_operand.size() > 0) {
         appendText(".");
     }
 }
