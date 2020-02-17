@@ -74,13 +74,15 @@ void MainWindow::appendDot() {
 }
 
 void MainWindow::appendOp() {
+    QPushButton *button = (QPushButton *) sender();
     if (ui->btn_eq->isChecked()) {
         if (ui->lbl_result->text().contains("Zero Division Error")) {
+            button->setChecked(false);
             return;
         }
         ui->btn_eq->setChecked(false);
     }
-    QPushButton *button = (QPushButton *) sender();
+
     QString expression = ui->lbl_result->text();
 
     int negative_expression_flag = 0;
@@ -155,7 +157,11 @@ void MainWindow::deleteDigit() {
 }
 
 void MainWindow::calculate() {
-    ui->btn_eq->setChecked(true);
+    if (ui->lbl_result->text().contains("Zero Division Error")) {
+        deleteExpression();
+        return;
+    }
+
     if (ui->btn_plus->isChecked()) {
         ui->btn_plus->setChecked(false);
         second_num = ui->lbl_result->text().split(ui->btn_plus->text())[1].toDouble();
@@ -182,6 +188,7 @@ void MainWindow::calculate() {
     }
     QString result = QString::number(first_num, 'g', MAX_DIGITS);
     ui->lbl_result->setText(result);
+    ui->btn_eq->setChecked(true);
 }
 
 void MainWindow::appendText(QString text) {
