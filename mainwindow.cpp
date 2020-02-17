@@ -20,10 +20,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_8, SIGNAL(clicked()), this, SLOT(appendDigit()));
     connect(ui->btn_9, SIGNAL(clicked()), this, SLOT(appendDigit()));
 
+    connect(ui->btn_dot, SIGNAL(clicked()), this, SLOT(appendDot()));
+
     connect(ui->btn_plus, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_minus, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_mult, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_div, SIGNAL(clicked()), this, SLOT(appendOp()));
+
+    connect(ui->btn_c, SIGNAL(clicked()), this, SLOT(deleteExpression()));
+    connect(ui->btn_ce, SIGNAL(clicked()), this, SLOT(deleteOperand()));
+    connect(ui->btn_del, SIGNAL(clicked()), this, SLOT(deleteDigit()));
+
+    connect(ui->btn_eq, SIGNAL(clicked()), this, SLOT(calculate()));
 
     ui->btn_plus->setCheckable(true);
     ui->btn_minus->setCheckable(true);
@@ -44,6 +52,25 @@ void MainWindow::appendDigit() {
         ui->btn_eq->setChecked(false);
     }
     appendText(button->text());
+}
+
+void MainWindow::appendDot() {
+    if (ui->btn_eq->isChecked()) {
+        ui->lbl_result->setText("0");
+        ui->btn_eq->setChecked(false);
+    }
+
+    QPushButton* op = getOperator();
+    QString last_operand = ui->lbl_result->text();
+    if (op) {
+        last_operand = last_operand.split(op->text())[1];
+    }
+    if (!last_operand.contains(".")) {
+        if (last_operand.size() == 0) {
+            appendText("0");
+        }
+        appendText(".");
+    }
 }
 
 void MainWindow::appendOp() {
@@ -70,31 +97,7 @@ void MainWindow::appendOp() {
     appendText(button->text());
 }
 
-void MainWindow::appendText(QString text) {
-    QString new_text = ui->lbl_result->text() + text;
-    ui->lbl_result->setText(new_text);
-}
-
-QPushButton *MainWindow::getOperator()
-{
-    QPushButton *button = nullptr;
-    if (ui->btn_plus->isChecked()) {
-        button = ui->btn_plus;
-    }
-    if (ui->btn_minus->isChecked()) {
-        button = ui->btn_minus;
-    }
-    if (ui->btn_mult->isChecked()) {
-        button = ui->btn_mult;
-    }
-    if (ui->btn_div->isChecked()) {
-        button = ui->btn_div;
-    }
-    return button;
-}
-
-
-void MainWindow::on_btn_c_clicked() {
+void MainWindow::deleteExpression() {
     ui->lbl_result->setText("0");
     ui->btn_eq->setChecked(true);
 
@@ -104,7 +107,30 @@ void MainWindow::on_btn_c_clicked() {
     ui->btn_div->setChecked(false);
 }
 
-void MainWindow::on_btn_eq_clicked() {
+void MainWindow::deleteOperand() {
+    QPushButton *button = getOperator();
+    if (!button) {
+        deleteExpression();
+        return;
+    }
+    QString expression = ui->lbl_result->text().split(button->text())[0];
+    ui->lbl_result->setText(expression + button->text());
+}
+
+void MainWindow::deleteDigit() {
+    if (ui->btn_eq->isChecked()) {
+        return;
+    }
+    QString expression = ui->lbl_result->text();
+    if (expression.size() > 1) {
+        expression.chop(1);
+        ui->lbl_result->setText(expression);
+    } else if (expression != "0") {
+        ui->lbl_result->setText("0");
+    }
+}
+
+void MainWindow::calculate() {
     ui->btn_eq->setChecked(true);
     if (ui->btn_plus->isChecked()) {
         ui->btn_plus->setChecked(false);
@@ -134,43 +160,24 @@ void MainWindow::on_btn_eq_clicked() {
     ui->lbl_result->setText(result);
 }
 
-void MainWindow::on_btn_dot_clicked() {
-    if (ui->btn_eq->isChecked()) {
-        ui->lbl_result->setText("0");
-        ui->btn_eq->setChecked(false);
-    }
-
-    QPushButton* op = getOperator();
-    QString last_operand = ui->lbl_result->text();
-    if (op) {
-        last_operand = last_operand.split(op->text())[1];
-    }
-    if (!last_operand.contains(".") && last_operand.size() > 0) {
-        appendText(".");
-    }
+void MainWindow::appendText(QString text) {
+    QString new_text = ui->lbl_result->text() + text;
+    ui->lbl_result->setText(new_text);
 }
 
-void MainWindow::on_btn_del_clicked()
-{
-    if (ui->btn_eq->isChecked()) {
-        return;
+QPushButton *MainWindow::getOperator() {
+    QPushButton *button = nullptr;
+    if (ui->btn_plus->isChecked()) {
+        button = ui->btn_plus;
     }
-    QString expression = ui->lbl_result->text();
-    if (expression.size() > 1) {
-        expression.chop(1);
-        ui->lbl_result->setText(expression);
-    } else if (expression != "0") {
-        ui->lbl_result->setText("0");
+    if (ui->btn_minus->isChecked()) {
+        button = ui->btn_minus;
     }
-}
-
-void MainWindow::on_btn_ce_clicked()
-{
-    QPushButton *button = getOperator();
-    if (!button) {
-        on_btn_c_clicked();
-        return;
+    if (ui->btn_mult->isChecked()) {
+        button = ui->btn_mult;
     }
-    QString expression = ui->lbl_result->text().split(button->text())[0];
-    ui->lbl_result->setText(expression + button->text());
+    if (ui->btn_div->isChecked()) {
+        button = ui->btn_div;
+    }
+    return button;
 }

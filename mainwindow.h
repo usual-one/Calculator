@@ -23,21 +23,21 @@ private
 
     void appendDigit();
 
+    void appendDot();
+
     void appendOp();
+
+    void deleteExpression();
+
+    void deleteOperand();
+
+    void deleteDigit();
+
+    void calculate();
 
     void appendText(QString text);
 
     QPushButton *getOperator();
-
-    void on_btn_c_clicked();
-
-    void on_btn_eq_clicked();
-
-    void on_btn_dot_clicked();
-
-    void on_btn_del_clicked();
-
-    void on_btn_ce_clicked();
 
 private:
     double first_num;
