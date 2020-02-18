@@ -64,11 +64,7 @@ void MainWindow::appendDot() {
         ui->btn_eq->setChecked(false);
     }
 
-    QPushButton* op = getOperator();
     QString last_operand = ui->lbl_result->text();
-    if (op) {
-        last_operand = last_operand.split(op->text())[1];
-    }
     if (!last_operand.contains(".")) {
         if (last_operand.size() == 0) {
             appendText(ui->lbl_result, "0");
@@ -132,13 +128,7 @@ void MainWindow::deleteExpression() {
 }
 
 void MainWindow::deleteOperand() {
-    QPushButton *button = getOperator();
-    if (!button) {
-        deleteExpression();
-        return;
-    }
-    QString expression = ui->lbl_result->text().split(button->text())[0];
-    ui->lbl_result->setText(expression + button->text());
+    ui->lbl_result->setText("0");
 }
 
 void MainWindow::deleteDigit() {
@@ -147,12 +137,6 @@ void MainWindow::deleteDigit() {
     }
 
     QString expression = ui->lbl_result->text();
-    QPushButton *op = getOperator();
-    if (op) {
-        if (expression[expression.size() - 1] == op->text()) {
-            return;
-        }
-    }
     if (expression.size() > 1) {
         expression.chop(1);
         ui->lbl_result->setText(expression);
