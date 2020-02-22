@@ -59,7 +59,7 @@
    <property name="mouseTracking">
     <bool>false</bool>
    </property>
-   <layout class="QVBoxLayout" name="layout_main">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -76,43 +76,63 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="layout_output" stretch="1,2">
+     <layout class="QVBoxLayout" name="layout_output">
       <property name="spacing">
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="lbl_action">
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>25</height>
-         </size>
+       <layout class="QHBoxLayout" name="layout_output_secondary" stretch="1,20">
+        <property name="spacing">
+         <number>0</number>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>1400</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Ubuntu</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLabel {
+        <item>
+         <widget class="QLabel" name="lbl_memory">
+          <property name="styleSheet">
+           <string notr="true">QLabel {
 	color: #000;
 	background-color: #A5A5A5;
 }</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lbl_action">
+          <property name="minimumSize">
+           <size>
+            <width>350</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1400</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+	color: #000;
+	background-color: #A5A5A5;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QLabel" name="lbl_result">
@@ -553,6 +573,57 @@ QPushButton:pressed {
           <property name="spacing">
            <number>0</number>
           </property>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="btn_9">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: #fff;
+	background-color: #333;
+	border: 1px solid #fff;
+}
+
+QPushButton:pressed {
+	background-color: #737373;
+}</string>
+            </property>
+            <property name="text">
+             <string>9</string>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="0">
            <widget class="QPushButton" name="btn_1">
             <property name="enabled">
@@ -652,6 +723,57 @@ QPushButton:pressed {
             </property>
             <property name="text">
              <string>8</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="btn_7">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: #fff;
+	background-color: #333;
+	border: 1px solid #fff;
+}
+
+QPushButton:pressed {
+	background-color: #737373;
+}</string>
+            </property>
+            <property name="text">
+             <string>7</string>
             </property>
            </widget>
           </item>
@@ -757,57 +879,6 @@ QPushButton:pressed {
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="btn_6">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>200</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Ubuntu</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-	color: #fff;
-	background-color: #333;
-	border: 1px solid #fff;
-}
-
-QPushButton:pressed {
-	background-color: #737373;
-}</string>
-            </property>
-            <property name="text">
-             <string>6</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QPushButton" name="btn_4">
             <property name="enabled">
@@ -859,6 +930,57 @@ QPushButton:pressed {
             </property>
            </widget>
           </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="btn_6">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: #fff;
+	background-color: #333;
+	border: 1px solid #fff;
+}
+
+QPushButton:pressed {
+	background-color: #737373;
+}</string>
+            </property>
+            <property name="text">
+             <string>6</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
            <widget class="QPushButton" name="btn_5">
             <property name="enabled">
@@ -907,108 +1029,6 @@ QPushButton:pressed {
             </property>
             <property name="text">
              <string>5</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="btn_7">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>200</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Ubuntu</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-	color: #fff;
-	background-color: #333;
-	border: 1px solid #fff;
-}
-
-QPushButton:pressed {
-	background-color: #737373;
-}</string>
-            </property>
-            <property name="text">
-             <string>7</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QPushButton" name="btn_9">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>200</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Ubuntu</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-	color: #fff;
-	background-color: #333;
-	border: 1px solid #fff;
-}
-
-QPushButton:pressed {
-	background-color: #737373;
-}</string>
-            </property>
-            <property name="text">
-             <string>9</string>
             </property>
            </widget>
           </item>

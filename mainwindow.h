@@ -36,6 +36,8 @@ private
 
     void calculate();
 
+    void changeMemory();
+
     void appendText(QLabel *label, QString text);
 
     QPushButton *getOperator();
@@ -44,6 +46,7 @@ private:
     double first_num;
     double second_num;
     bool operator_appended;
+    double memory_num;
     Ui::MainWindow *ui;
 };
 

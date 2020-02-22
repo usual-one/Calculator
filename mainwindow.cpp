@@ -33,10 +33,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn_eq, SIGNAL(clicked()), this, SLOT(calculate()));
 
+    connect(ui->btn_mc, SIGNAL(clicked()), this, SLOT(changeMemory()));
+    connect(ui->btn_ms, SIGNAL(clicked()), this, SLOT(changeMemory()));
+    connect(ui->btn_mr, SIGNAL(clicked()), this, SLOT(changeMemory()));
+    connect(ui->btn_mplus, SIGNAL(clicked()), this, SLOT(changeMemory()));
+    connect(ui->btn_mminus, SIGNAL(clicked()), this, SLOT(changeMemory()));
+
     ui->btn_plus->setCheckable(true);
     ui->btn_minus->setCheckable(true);
     ui->btn_mult->setCheckable(true);
     ui->btn_div->setCheckable(true);
+
     ui->btn_eq->setCheckable(true);
     ui->btn_eq->setChecked(true);
 
@@ -182,6 +189,32 @@ void MainWindow::calculate() {
     appendText(ui->lbl_action, QString::number(second_num, 'g', MAX_DIGITS));
     ui->lbl_result->setText(result);
     ui->btn_eq->setChecked(true);
+}
+
+void MainWindow::changeMemory() {
+    QPushButton *button = (QPushButton *) sender();
+    QString btext = button->text().remove(0, 1);
+
+    if (btext == "S") {
+        ui->lbl_memory->setText("M");
+        memory_num = ui->lbl_result->text().toDouble();
+    }
+    if (!ui->lbl_memory->text().size()) {
+        return;
+    }
+
+    if (btext == "C") {
+        ui->lbl_memory->clear();
+    }
+    if (btext == "R") {
+        ui->lbl_result->setText(QString::number(memory_num, 'g', MAX_DIGITS));
+    }
+    if (btext == "+") {
+        memory_num += ui->lbl_result->text().toDouble();
+    }
+    if (btext == "-") {
+        memory_num -= ui->lbl_result->text().toDouble();
+    }
 }
 
 void MainWindow::appendText(QLabel *label, QString text) {
