@@ -43,6 +43,7 @@ private
 private:
     double first_num;
     double second_num;
+    bool operator_appended;
     Ui::MainWindow *ui;
 };
 

@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btn_div->setCheckable(true);
     ui->btn_eq->setCheckable(true);
     ui->btn_eq->setChecked(true);
+
+    operator_appended = false;
 }
 
 MainWindow::~MainWindow() {
@@ -52,7 +54,8 @@ void MainWindow::appendDigit() {
         ui->lbl_action->clear();
         ui->btn_eq->setChecked(false);
     }
-    if (getOperator()) {
+    if (operator_appended) {
+        operator_appended = false;
         ui->lbl_result->clear();
     }
     appendText(ui->lbl_result, button->text());
@@ -113,6 +116,7 @@ void MainWindow::appendOp() {
 
     first_num = expression.toDouble();
     button->setChecked(true);
+    operator_appended = true;
     appendText(ui->lbl_action, ui->lbl_result->text() + button->text());
 }
 
