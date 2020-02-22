@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btn_eq->setCheckable(true);
     ui->btn_eq->setChecked(true);
 
+    error = false;
     operator_appended = false;
 }
 
@@ -67,6 +68,9 @@ MainWindow::~MainWindow() {
 void MainWindow::appendDigit() {
     QPushButton *button = (QPushButton *) sender();
     if (ui->btn_eq->isChecked()) {
+        if (error) {
+            error = false;
+        }
         ui->lbl_result->clear();
         ui->lbl_action->clear();
         ui->btn_eq->setChecked(false);
@@ -80,6 +84,9 @@ void MainWindow::appendDigit() {
 
 void MainWindow::appendDot() {
     if (ui->btn_eq->isChecked()) {
+        if (error) {
+            error = false;
+        }
         ui->lbl_result->setText("0");
         ui->btn_eq->setChecked(false);
     }
@@ -96,7 +103,7 @@ void MainWindow::appendDot() {
 void MainWindow::appendOp() {
     QPushButton *button = (QPushButton *) sender();
     if (ui->btn_eq->isChecked()) {
-        if (ui->lbl_result->text().contains("Zero Division Error")) {
+        if (error) {
             button->setChecked(false);
             return;
         }
@@ -139,6 +146,9 @@ void MainWindow::appendOp() {
 
 void MainWindow::calculateUnaryOp()
 {
+    if (error) {
+        return;
+    }
     QPushButton *button = (QPushButton *) sender();
     QString btext = button->text();
     first_num = ui->lbl_result->text().toDouble();
@@ -153,24 +163,45 @@ void MainWindow::calculateUnaryOp()
         first_num = tan(first_num);
     }
     if (btext == "arcsin") {
-        first_num = asin(first_num);
+        if (-1 <= first_num && first_num <= 1) {
+            first_num = asin(first_num);
+        } else {
+            error = true;
+        }
     }
     if (btext == "arccos") {
-        first_num = acos(first_num);
+        if (-1 <= first_num && first_num <= 1) {
+            first_num = acos(first_num);
+        } else {
+            error = true;
+        }
     }
     if (btext == "arctg") {
         first_num = atan(first_num);
     }
     if (btext == "√") {
-        first_num = sqrt(first_num);
+        if (first_num > 0) {
+            first_num = sqrt(first_num);
+        } else {
+            error = true;
+        }
     }
     if (btext == "1/x") {
-        first_num = 1 / first_num;
+        if (first_num != 0) {
+            first_num = 1 / first_num;
+        } else {
+            error = true;
+        }
         btext.chop(1);
     }
 
     ui->lbl_action->setText(btext + ui->lbl_result->text());
-    ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+    if (!error) {
+       ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+    } else {
+        ui->lbl_result->setText("Arithmetic error");
+    }
+
     ui->btn_eq->setChecked(true);
 }
 
@@ -205,7 +236,7 @@ void MainWindow::deleteDigit() {
 }
 
 void MainWindow::calculate() {
-    if (ui->lbl_result->text().contains("Zero Division Error")) {
+    if (error) {
         deleteExpression();
         return;
     }
@@ -226,7 +257,8 @@ void MainWindow::calculate() {
             first_num = first_num / second_num;
         } else {
             appendText(ui->lbl_action, QString::number(second_num, 'g', MAX_DIGITS));
-            ui->lbl_result->setText("Zero Division Error");
+            ui->lbl_result->setText("Arithmetic error");
+            error = true;
             return;
         }
     } else {
