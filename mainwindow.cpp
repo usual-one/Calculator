@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QLabel>
 #include <QString>
+#include <cmath>
 
 #include <QDebug>
 
@@ -26,6 +27,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_minus, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_mult, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_div, SIGNAL(clicked()), this, SLOT(appendOp()));
+
+    connect(ui->btn_sin, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_cos, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_tg, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_arcsin, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_arccos, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_arctg, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_sqrt, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
+    connect(ui->btn_reverse, SIGNAL(clicked()), this, SLOT(calculateUnaryOp()));
 
     connect(ui->btn_c, SIGNAL(clicked()), this, SLOT(deleteExpression()));
     connect(ui->btn_ce, SIGNAL(clicked()), this, SLOT(deleteOperand()));
@@ -125,6 +135,43 @@ void MainWindow::appendOp() {
     button->setChecked(true);
     operator_appended = true;
     appendText(ui->lbl_action, ui->lbl_result->text() + button->text());
+}
+
+void MainWindow::calculateUnaryOp()
+{
+    QPushButton *button = (QPushButton *) sender();
+    QString btext = button->text();
+    first_num = ui->lbl_result->text().toDouble();
+
+    if (btext == "sin") {
+        first_num = sin(first_num);
+    }
+    if (btext == "cos") {
+        first_num = cos(first_num);
+    }
+    if (btext == "tg") {
+        first_num = tan(first_num);
+    }
+    if (btext == "arcsin") {
+        first_num = asin(first_num);
+    }
+    if (btext == "arccos") {
+        first_num = acos(first_num);
+    }
+    if (btext == "arctg") {
+        first_num = atan(first_num);
+    }
+    if (btext == "√") {
+        first_num = sqrt(first_num);
+    }
+    if (btext == "1/x") {
+        first_num = 1 / first_num;
+        btext.chop(1);
+    }
+
+    ui->lbl_action->setText(btext + ui->lbl_result->text());
+    ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+    ui->btn_eq->setChecked(true);
 }
 
 void MainWindow::deleteExpression() {

@@ -28,6 +28,8 @@ private
 
     void appendOp();
 
+    void calculateUnaryOp();
+
     void deleteExpression();
 
     void deleteOperand();
