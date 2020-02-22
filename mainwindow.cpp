@@ -102,21 +102,42 @@ void MainWindow::appendDot() {
 
 void MainWindow::appendOp() {
     QPushButton *button = (QPushButton *) sender();
+
     if (ui->btn_eq->isChecked()) {
         if (error) {
+            if (button->text() == "-") {
+                deleteExpression();
+                ui->btn_eq->setChecked(false);
+                ui->lbl_result->setText(button->text());
+            }
             button->setChecked(false);
             return;
         }
         ui->lbl_action->clear();
         ui->btn_eq->setChecked(false);
+        if (button->text() == "-" && ui->lbl_result->text() == "0") {
+            ui->lbl_result->setText(button->text());
+            button->setChecked(false);
+            return;
+        }
     }
 
-    QString expression = ui->lbl_result->text();
+    QString expression = ui->lbl_action->text();
+    if (!expression.size()) {
+        expression = ui->lbl_result->text();
+    }
 
-    int negative_expression_flag = 0;
+    bool negative_expression_flag = false;
     if (expression[0] == "-") {
-        negative_expression_flag = 1;
+        negative_expression_flag = true;
         expression.remove(0, 1);
+    }
+
+    if (!expression.size()) {
+        if (button->text() == "-") {
+            deleteExpression();
+        }
+        return; // lbl_result: "-"
     }
 
 
@@ -127,21 +148,17 @@ void MainWindow::appendOp() {
     button->setChecked(false);
     QPushButton *op = getOperator();
     if (op) {
-        if (expression[expression.size() - 1] != op->text()) {
-            return;
-        }
         op->setChecked(false);
         expression.chop(1);
-        if (negative_expression_flag) {
-            expression = "-" + expression;
-        }
-        ui->lbl_result->setText(expression);
     }
 
+    if (negative_expression_flag) {
+        expression = "-" + expression;
+    }
     first_num = expression.toDouble();
     button->setChecked(true);
     operator_appended = true;
-    appendText(ui->lbl_action, ui->lbl_result->text() + button->text());
+    ui->lbl_action->setText(expression + button->text());
 }
 
 void MainWindow::calculateUnaryOp()
@@ -151,6 +168,11 @@ void MainWindow::calculateUnaryOp()
     }
     QPushButton *button = (QPushButton *) sender();
     QString btext = button->text();
+
+    if (ui->lbl_result->text() == "-") {
+        return;
+    }
+
     first_num = ui->lbl_result->text().toDouble();
 
     if (btext == "sin") {
@@ -214,6 +236,9 @@ void MainWindow::deleteExpression() {
     ui->btn_minus->setChecked(false);
     ui->btn_mult->setChecked(false);
     ui->btn_div->setChecked(false);
+
+    error = false;
+    operator_appended = false;
 }
 
 void MainWindow::deleteOperand() {
@@ -237,7 +262,7 @@ void MainWindow::deleteDigit() {
 
 void MainWindow::calculate() {
     if (error) {
-        deleteExpression();
+        ui->btn_eq->setChecked(true);
         return;
     }
 
@@ -258,12 +283,14 @@ void MainWindow::calculate() {
         } else {
             appendText(ui->lbl_action, QString::number(second_num, 'g', MAX_DIGITS));
             ui->lbl_result->setText("Arithmetic error");
+            ui->btn_eq->setChecked(true);
             error = true;
             return;
         }
     } else {
         first_num = ui->lbl_result->text().toDouble();
     }
+
     QString result = QString::number(first_num, 'g', MAX_DIGITS);
     appendText(ui->lbl_action, QString::number(second_num, 'g', MAX_DIGITS));
     ui->lbl_result->setText(result);
@@ -273,6 +300,10 @@ void MainWindow::calculate() {
 void MainWindow::changeMemory() {
     QPushButton *button = (QPushButton *) sender();
     QString btext = button->text().remove(0, 1);
+
+    if (ui->lbl_result->text() == "-") {
+        return;
+    }
 
     if (btext == "S") {
         ui->lbl_memory->setText("M");

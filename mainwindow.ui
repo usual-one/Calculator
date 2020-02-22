@@ -91,7 +91,7 @@
            <string notr="true">QLabel {
 	color: #000;
 	background-color: #A5A5A5;
-	margin-left: 1px;
+	padding-left: 1px;
 }</string>
           </property>
           <property name="text">
@@ -123,7 +123,7 @@
            <string notr="true">QLabel {
 	color: #000;
 	background-color: #A5A5A5;
-	margin-right: 1px;
+	padding-right: 1px;
 }</string>
           </property>
           <property name="text">
@@ -169,7 +169,7 @@
          <string notr="true">QLabel {
 	color: #fff;
 	background-color: #000;
-	margin-right: 1px;
+	padding-right: 1px;
 }</string>
         </property>
         <property name="text">
