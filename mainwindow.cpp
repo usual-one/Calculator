@@ -83,19 +83,20 @@ void MainWindow::appendDigit() {
 }
 
 void MainWindow::appendDot() {
-    if (ui->btn_eq->isChecked()) {
+    if (ui->btn_eq->isChecked() || operator_appended) {
         if (error) {
             error = false;
         }
+        if (ui->btn_eq->isChecked()) {
+            ui->btn_eq->setChecked(false);
+            ui->lbl_action->clear();
+        }
         ui->lbl_result->setText("0");
-        ui->btn_eq->setChecked(false);
+        operator_appended = false;
     }
 
-    QString last_operand = ui->lbl_result->text();
-    if (!last_operand.contains(".")) {
-        if (last_operand.size() == 0) {
-            appendText(ui->lbl_result, "0");
-        }
+    QString operand = ui->lbl_result->text();
+    if (!operand.contains(".")) {
         appendText(ui->lbl_result, ".");
     }
 }
