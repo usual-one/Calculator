@@ -51,11 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_mplus, SIGNAL(clicked()), this, SLOT(changeMemory()));
     connect(ui->btn_mminus, SIGNAL(clicked()), this, SLOT(changeMemory()));
 
-    ui->btn_plus->setCheckable(true);
-    ui->btn_minus->setCheckable(true);
-    ui->btn_mult->setCheckable(true);
-    ui->btn_div->setCheckable(true);
-
     ui->btn_eq->setCheckable(true);
     ui->btn_eq->setChecked(true);
 
@@ -257,10 +252,10 @@ void MainWindow::calculate() {
                 ui->lbl_action->clear();
                 ui->btn_eq->setChecked(false);
                 op->click();
-                operator_appended = false;
             } else {
                 second_num = ui->lbl_result->text().toDouble();
             }
+            operator_appended = false;
         } else {
             op->click();
             return;
