@@ -48,6 +48,7 @@ private:
     double first_num;
     double second_num;
     double memory_num;
+    QPushButton* op;
     bool operator_appended;
     bool error;
     Ui::MainWindow *ui;

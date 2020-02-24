@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     error = false;
     operator_appended = false;
+
+    op = nullptr;
 }
 
 MainWindow::~MainWindow() {
@@ -158,6 +160,7 @@ void MainWindow::appendOp() {
     }
     first_num = expression.toDouble();
     button->setChecked(true);
+    this->op = button;
     operator_appended = true;
     ui->lbl_action->setText(expression + button->text());
 }
@@ -221,6 +224,7 @@ void MainWindow::calculateUnaryOp()
     ui->lbl_action->setText(btext + ui->lbl_result->text());
     if (!error) {
        ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+       this->op = button;
     } else {
         ui->lbl_result->setText("Arithmetic error");
     }
@@ -240,6 +244,7 @@ void MainWindow::deleteExpression() {
 
     error = false;
     operator_appended = false;
+    this->op = nullptr;
 }
 
 void MainWindow::deleteOperand() {
@@ -267,7 +272,21 @@ void MainWindow::calculate() {
         return;
     }
 
-    second_num = ui->lbl_result->text().toDouble();
+    if (op) {
+        if (op == ui->btn_plus || op == ui->btn_minus || op == ui->btn_mult || op == ui->btn_div) {
+            if (ui->lbl_action->text().split(op->text()).size() > 1) {
+                ui->lbl_action->setText(ui->lbl_action->text().split(op->text())[0] + op->text());
+                second_num = ui->lbl_action->text().split(op->text())[1].toDouble();
+            } else {
+                second_num = ui->lbl_result->text().toDouble();
+            }
+        } else {
+            op->click();
+            return;
+        }
+    }
+
+
     if (ui->btn_plus->isChecked()) {
         ui->btn_plus->setChecked(false);
         first_num = first_num + second_num;
