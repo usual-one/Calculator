@@ -104,7 +104,7 @@ void MainWindow::changeSign()
 {
     QString operand = ui->lbl_result->text();
 
-    if (operand == "0") {
+    if (operand.toDouble() == 0) {
         return;
     }
 
@@ -245,21 +245,24 @@ void MainWindow::calculate() {
         return;
     }
 
-    if (op) {
-        if (op == ui->btn_plus || op == ui->btn_minus || op == ui->btn_mult || op == ui->btn_div) {
-            if (ui->lbl_action->text()[ui->lbl_action->text().size() - 1] != op->text()) {
-                ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
-                ui->lbl_action->clear();
-                ui->btn_eq->setChecked(false);
-                op->click();
-            } else {
-                second_num = ui->lbl_result->text().toDouble();
-            }
-            operator_appended = false;
-        } else {
+    if (!op) {
+        ui->btn_eq->setChecked(false);
+        return;
+    }
+
+    if (op == ui->btn_plus || op == ui->btn_minus || op == ui->btn_mult || op == ui->btn_div) {
+        if (ui->lbl_action->text()[ui->lbl_action->text().size() - 1] != op->text()) {
+            ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+            ui->lbl_action->clear();
+            ui->btn_eq->setChecked(false);
             op->click();
-            return;
+        } else {
+            second_num = ui->lbl_result->text().toDouble();
         }
+        operator_appended = false;
+    } else {
+        op->click();
+        return;
     }
 
     if (op == ui->btn_plus) {
