@@ -165,8 +165,7 @@ void MainWindow::appendOp() {
     ui->lbl_action->setText(expression + button->text());
 }
 
-void MainWindow::calculateUnaryOp()
-{
+void MainWindow::calculateUnaryOp() {
     if (error) {
         return;
     }
@@ -206,7 +205,7 @@ void MainWindow::calculateUnaryOp()
         first_num = atan(first_num);
     }
     if (btext == "√") {
-        if (first_num > 0) {
+        if (first_num >= 0) {
             first_num = sqrt(first_num);
         } else {
             error = true;
@@ -223,8 +222,8 @@ void MainWindow::calculateUnaryOp()
 
     ui->lbl_action->setText(btext + ui->lbl_result->text());
     if (!error) {
-       ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
-       this->op = button;
+        ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+        this->op = button;
     } else {
         ui->lbl_result->setText("Arithmetic error");
     }
@@ -275,9 +274,8 @@ void MainWindow::calculate() {
     if (op) {
         if (op == ui->btn_plus || op == ui->btn_minus || op == ui->btn_mult || op == ui->btn_div) {
             if (ui->lbl_action->text()[ui->lbl_action->text().size() - 1] != op->text()) {
-                second_num = ui->lbl_action->text().split(op->text())[1].toDouble();
-                ui->lbl_action->setText(ui->lbl_result->text() + op->text());
-                op->setChecked(true);
+                ui->lbl_action->setText(QString::number(first_num, 'g', MAX_DIGITS));
+                op->click();
             } else {
                 second_num = ui->lbl_result->text().toDouble();
             }
@@ -286,7 +284,6 @@ void MainWindow::calculate() {
             return;
         }
     }
-
 
     if (ui->btn_plus->isChecked()) {
         ui->btn_plus->setChecked(false);
