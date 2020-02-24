@@ -44,8 +44,6 @@ private
 
     void appendText(QLabel *label, QString text);
 
-    QPushButton *getOperator();
-
 private:
     double first_num;
     double second_num;

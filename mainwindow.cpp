@@ -127,7 +127,6 @@ void MainWindow::appendOp() {
 
     if (ui->btn_eq->isChecked()) {
         if (error) {
-            button->setChecked(false);
             return;
         }
         ui->btn_eq->setChecked(false);
@@ -136,12 +135,10 @@ void MainWindow::appendOp() {
 
     if (operator_appended) {
         if (op == button) {
-            button->setChecked(true);
             return;
         }
     } else {
         if (ui->lbl_action->text().size()) {
-            button->setChecked(false);
             return;
         }
     }
@@ -149,7 +146,6 @@ void MainWindow::appendOp() {
     first_num = ui->lbl_result->text().toDouble();
     ui->lbl_action->setText(QString::number(first_num, 'g', MAX_DIGITS) + button->text());
     operator_appended = true;
-    button->setChecked(true);
     op = button;
 }
 
@@ -224,11 +220,6 @@ void MainWindow::deleteExpression() {
     ui->lbl_action->clear();
     ui->btn_eq->setChecked(true);
 
-    ui->btn_plus->setChecked(false);
-    ui->btn_minus->setChecked(false);
-    ui->btn_mult->setChecked(false);
-    ui->btn_div->setChecked(false);
-
     error = false;
     operator_appended = false;
     this->op = nullptr;
@@ -276,17 +267,13 @@ void MainWindow::calculate() {
         }
     }
 
-    if (ui->btn_plus->isChecked()) {
-        ui->btn_plus->setChecked(false);
+    if (op == ui->btn_plus) {
         first_num = first_num + second_num;
-    } else if (ui->btn_minus->isChecked()) {
-        ui->btn_minus->setChecked(false);
+    } else if (op == ui->btn_minus) {
         first_num = first_num - second_num;
-    } else if (ui->btn_mult->isChecked()) {
-        ui->btn_mult->setChecked(false);
+    } else if (op == ui->btn_mult) {
         first_num = first_num * second_num;
-    } else if (ui->btn_div->isChecked()) {
-        ui->btn_div->setChecked(false);
+    } else if (op == ui->btn_div) {
         if (second_num != 0) {
             first_num = first_num / second_num;
         } else {
@@ -339,21 +326,4 @@ void MainWindow::changeMemory() {
 void MainWindow::appendText(QLabel *label, QString text) {
     QString new_text = label->text() + text;
     label->setText(new_text);
-}
-
-QPushButton *MainWindow::getOperator() {
-    QPushButton *button = nullptr;
-    if (ui->btn_plus->isChecked()) {
-        button = ui->btn_plus;
-    }
-    if (ui->btn_minus->isChecked()) {
-        button = ui->btn_minus;
-    }
-    if (ui->btn_mult->isChecked()) {
-        button = ui->btn_mult;
-    }
-    if (ui->btn_div->isChecked()) {
-        button = ui->btn_div;
-    }
-    return button;
 }
