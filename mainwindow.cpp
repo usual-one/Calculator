@@ -274,9 +274,10 @@ void MainWindow::calculate() {
 
     if (op) {
         if (op == ui->btn_plus || op == ui->btn_minus || op == ui->btn_mult || op == ui->btn_div) {
-            if (ui->lbl_action->text().split(op->text()).size() > 1) {
-                ui->lbl_action->setText(ui->lbl_action->text().split(op->text())[0] + op->text());
+            if (ui->lbl_action->text()[ui->lbl_action->text().size() - 1] != op->text()) {
                 second_num = ui->lbl_action->text().split(op->text())[1].toDouble();
+                ui->lbl_action->setText(ui->lbl_result->text() + op->text());
+                op->setChecked(true);
             } else {
                 second_num = ui->lbl_result->text().toDouble();
             }
