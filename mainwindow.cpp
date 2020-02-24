@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->btn_dot, SIGNAL(clicked()), this, SLOT(appendDot()));
 
+    connect(ui->btn_neg, SIGNAL(clicked()), this, SLOT(changeSign()));
+
     connect(ui->btn_plus, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_minus, SIGNAL(clicked()), this, SLOT(appendOp()));
     connect(ui->btn_mult, SIGNAL(clicked()), this, SLOT(appendOp()));
@@ -103,66 +105,52 @@ void MainWindow::appendDot() {
     }
 }
 
+void MainWindow::changeSign()
+{
+    QString operand = ui->lbl_result->text();
+
+    if (operand == "0") {
+        return;
+    }
+
+    if (operand[0] == "-") {
+        operand.remove(0, 1);
+    } else {
+        operand = "-" + operand;
+    }
+
+    ui->lbl_result->setText(operand);
+}
+
 void MainWindow::appendOp() {
     QPushButton *button = (QPushButton *) sender();
 
     if (ui->btn_eq->isChecked()) {
         if (error) {
-            if (button->text() == "-") {
-                deleteExpression();
-                ui->btn_eq->setChecked(false);
-                ui->lbl_result->setText(button->text());
-            }
             button->setChecked(false);
             return;
         }
-        ui->lbl_action->clear();
         ui->btn_eq->setChecked(false);
-        if (button->text() == "-" && ui->lbl_result->text() == "0") {
-            ui->lbl_result->setText(button->text());
+        ui->lbl_action->clear();
+    }
+
+    if (operator_appended) {
+        if (op == button) {
+            button->setChecked(true);
+            return;
+        }
+    } else {
+        if (ui->lbl_action->text().size()) {
             button->setChecked(false);
             return;
         }
     }
 
-    QString expression = ui->lbl_action->text();
-    if (!expression.size()) {
-        expression = ui->lbl_result->text();
-    }
-
-    bool negative_expression_flag = false;
-    if (expression[0] == "-") {
-        negative_expression_flag = true;
-        expression.remove(0, 1);
-    }
-
-    if (!expression.size()) {
-        if (button->text() == "-") {
-            deleteExpression();
-        }
-        return; // lbl_result: "-"
-    }
-
-
-    if (expression.contains(button->text())) {
-        button->setChecked(true);
-        return;
-    }
-    button->setChecked(false);
-    QPushButton *op = getOperator();
-    if (op) {
-        op->setChecked(false);
-        expression.chop(1);
-    }
-
-    if (negative_expression_flag) {
-        expression = "-" + expression;
-    }
-    first_num = expression.toDouble();
-    button->setChecked(true);
-    this->op = button;
+    first_num = ui->lbl_result->text().toDouble();
+    ui->lbl_action->setText(QString::number(first_num, 'g', MAX_DIGITS) + button->text());
     operator_appended = true;
-    ui->lbl_action->setText(expression + button->text());
+    button->setChecked(true);
+    op = button;
 }
 
 void MainWindow::calculateUnaryOp() {
@@ -274,8 +262,11 @@ void MainWindow::calculate() {
     if (op) {
         if (op == ui->btn_plus || op == ui->btn_minus || op == ui->btn_mult || op == ui->btn_div) {
             if (ui->lbl_action->text()[ui->lbl_action->text().size() - 1] != op->text()) {
-                ui->lbl_action->setText(QString::number(first_num, 'g', MAX_DIGITS));
+                ui->lbl_result->setText(QString::number(first_num, 'g', MAX_DIGITS));
+                ui->lbl_action->clear();
+                ui->btn_eq->setChecked(false);
                 op->click();
+                operator_appended = false;
             } else {
                 second_num = ui->lbl_result->text().toDouble();
             }

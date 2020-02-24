@@ -26,6 +26,8 @@ private
 
     void appendDot();
 
+    void changeSign();
+
     void appendOp();
 
     void calculateUnaryOp();

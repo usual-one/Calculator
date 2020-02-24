@@ -59,7 +59,7 @@
    <property name="mouseTracking">
     <bool>false</bool>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="3,10">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -76,7 +76,7 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="layout_output">
+     <layout class="QVBoxLayout" name="layout_output" stretch="1,2">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -1038,7 +1038,7 @@ QPushButton:pressed {
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="layout_lower_numbers" stretch="2,1">
+         <layout class="QHBoxLayout" name="layout_lower_numbers" stretch="1,1,1">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -1055,13 +1055,13 @@ QPushButton:pressed {
             </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>50</width>
               <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>400</width>
+              <width>200</width>
               <height>200</height>
              </size>
             </property>
@@ -1110,7 +1110,7 @@ QPushButton:pressed {
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>0</height>
+              <height>50</height>
              </size>
             </property>
             <property name="maximumSize">
@@ -1144,6 +1144,47 @@ QPushButton:pressed {
             </property>
             <property name="text">
              <string>.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_neg">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+	color: #fff;
+	background-color: #333;
+	border: 1px solid #fff;
+}
+
+QPushButton:pressed {
+	background-color: #737373;
+}</string>
+            </property>
+            <property name="text">
+             <string>±</string>
             </property>
            </widget>
           </item>
@@ -1671,13 +1712,13 @@ QPushButton:pressed {
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
+            <width>100</width>
             <height>50</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>600</width>
+            <width>400</width>
             <height>200</height>
            </size>
           </property>
@@ -1692,6 +1733,9 @@ QPushButton:pressed {
             <family>Ubuntu</family>
             <pointsize>14</pointsize>
            </font>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
