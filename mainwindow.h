@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QLabel>
 #include <QMainWindow>
 #include <QPushButton>
 
@@ -25,7 +26,11 @@ private
 
     void appendDot();
 
+    void changeSign();
+
     void appendOp();
+
+    void calculateUnaryOp();
 
     void deleteExpression();
 
@@ -35,13 +40,17 @@ private
 
     void calculate();
 
-    void appendText(QString text);
+    void changeMemory();
 
-    QPushButton *getOperator();
+    void appendText(QLabel *label, QString text);
 
 private:
     double first_num;
     double second_num;
+    double memory_num;
+    QPushButton* op;
+    bool operator_appended;
+    bool error;
     Ui::MainWindow *ui;
 };
 
